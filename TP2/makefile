@@ -8,3 +8,6 @@ prot: $(OBJS)
 do:
 	flex converter.l 
 	gcc lex.yy.c -o exec
+
+clean:
+	rm lex.yy.c exec
