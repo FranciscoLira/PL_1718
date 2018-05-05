@@ -28,3 +28,4 @@ do:
 
 clean:
 	rm lex.yy.c exec
+	rm test/out*.html
