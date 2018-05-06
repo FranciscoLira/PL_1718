@@ -26,7 +26,7 @@ test1: do
 
 do:
 	flex converter.l 
-	gcc lex.yy.c stack.h -o exec
+	gcc lex.yy.c -o exec
 
 clean:
 	rm lex.yy.c exec

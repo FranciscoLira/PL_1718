@@ -1,4 +1,4 @@
-%x CONVERTER
+%x LINK
 
 %{
 
@@ -9,6 +9,7 @@
 int q;
 int st;	
 char** stack;
+char** tmplink;
 
 int getLevel(char* tag){
 	if (strcmp(tag,"h1")==0) return 1;
@@ -145,11 +146,23 @@ void checkheader(){
 	else printf("\n");
 }
 
+void closetags(){
+	while(q>0){
+		printf("</%s>\n",stackGet());
+		stackRemove();
+	}
+}
+
+void createLink(){
+	printf("<a href=\"%s\">%s</a>",tmplink[1],tmplink[0]);
+}
+
 %}
 
 %%
 
 \n 						checkheader();
+\[					 	BEGIN LINK;
 #{6}					starttag("h6");
 #{5}					starttag("h5");
 #{4}					starttag("h4");
@@ -165,6 +178,12 @@ _						starttag("i");
 \n0.					startlist("ul");
 .						printf("%s",yytext);
 
+
+<LINK>{
+	[^\n]+\] 									{tmplink[0]=strdup(yytext);}
+	\((https:\/\/)?(www.)?[A-Za-z]+\.com\)		{tmplink[1]=strdup(yytext);createLink(); BEGIN INITIAL;}
+}
+
 %%
 
 
@@ -177,11 +196,13 @@ int main(){
 	q = 0;
 	st = 15;
 	stack = (char**)malloc(sizeof(char*)*st);
+	tmplink = (char**)malloc(sizeof(char*)*2);
 	printf("<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>HTML from MARKDOWN</title>\n\t</head>\n\t<body>\n");
 	while(s=yylex()){
 		printf("%d",s);
 	}
 	yylex();
+	closetags();
 	printf("\n\t</body>\n</html>");
 
 	return 0;
