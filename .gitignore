@@ -1,6 +1,6 @@
-TP2/exec
-TP2/lex.yy.c
-TP2/out1.html
-TP2/out2.html
-TP2/out3.html
-TP2/out4.html
+TP2/src/exec
+TP2/src/lex.yy.c
+TP2/src/test/out1.html
+TP2/src/test/out2.html
+TP2/src/test/out3.html
+TP2/src/test/out4.html
