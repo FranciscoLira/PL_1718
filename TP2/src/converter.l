@@ -11,14 +11,6 @@ int st;
 char** stack;
 char** tmplink;
 
-void printstack(){
-	int z=0;
-	while(z<q){
-		printf("%s;",stack[z]);
-		z++;
-	}
-}
-
 void puttab(int t){
 	int i=0;
 	while(i<t){
@@ -44,39 +36,6 @@ int getLevel(char* tag){
 	return 0;
 }
 
-/*This function makes print of inline a header in html
-	t: # of tabs to indent
-	tag: html tag that should be used
-	sb: quantity of arguments to surpress in the begining
-	se: quantity of arguments to surpress in the begining
-	str: content of tag
-*/
-void printin(int t,char* tag, int sb, int se, char* str){
-	int tmp = -2;
-	while(tmp<t){
-		printf("\t");
-		tmp++;
-	}
-	str[se-1]=0;
-	printf("<%s>",tag);
-	printf("%s",&str[sb]);
-	tmp = -2;
-	printf("</%s>",tag);
-}
-
-
-void stackDouble(){
-	int t = 0;
-	char** newstack = (char**)malloc(sizeof(char*)*st*2);
-	while(t<st){
-		newstack[t]=stack[t];
-		t++;
-	}
-	st = st*2;
-	free(stack);
-	stack = newstack;
-}
-
 void stackAdd(char* tag){
 	int tmp = strlen(tag);
 	stack[q] = (char*)malloc(sizeof(char)*(tmp+1));
@@ -90,7 +49,6 @@ void stackAdd(char* tag){
 void stackRemove(){
 	q--;
 	free(stack[q]);
-
 }
 
 char* stackGet(){
