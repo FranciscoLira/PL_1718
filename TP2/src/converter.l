@@ -41,9 +41,6 @@ void stackAdd(char* tag){
 	stack[q] = (char*)malloc(sizeof(char)*(tmp+1));
 	strcpy(stack[q],tag);
 	q++;
-	if(q>st-1){
-		stackDouble();
-	}
 }
 
 void stackRemove(){
@@ -209,8 +206,3 @@ int main(){
 
 	return 0;
 }
-
-/*
-\[[A-Za-z\ ]+\]\([(https?:\/\/)?(www.)?[a-z]+\.[a-z]{2,4}]\)	printin(q,"HERE",0,0,"lixo");
-(https?:\/\/)?(www.)?[a-z]+\.[a-z]{2,4} 	printin(q,"a href=",0,0,"lixo");
-*/
