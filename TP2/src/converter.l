@@ -1,4 +1,4 @@
-%x LINK
+%x LINK CHECKER
 
 %{
 
@@ -11,6 +11,22 @@ int st;
 char** stack;
 char** tmplink;
 
+void printstack(){
+	int z=0;
+	while(z<q){
+		printf("%s;",stack[z]);
+		z++;
+	}
+}
+
+void puttab(int t){
+	int i=0;
+	while(i<t){
+		printf("\t");
+		i++;
+	}
+}
+
 int getLevel(char* tag){
 	if (strcmp(tag,"h1")==0) return 1;
 	if (strcmp(tag,"h2")==0) return 1;
@@ -18,6 +34,7 @@ int getLevel(char* tag){
 	if (strcmp(tag,"h4")==0) return 1;
 	if (strcmp(tag,"h5")==0) return 1;
 	if (strcmp(tag,"h6")==0) return 1;
+	if (strcmp(tag,"code")==0) return 2;
 	if (strcmp(tag,"ol")==0) return 3;
 	if (strcmp(tag,"ul")==0) return 3;
 	if (strcmp(tag,"li")==0) return 4;
@@ -71,7 +88,8 @@ void stackAdd(char* tag){
 }
 
 void stackRemove(){
-	free(stack[--q]);
+	q--;
+	free(stack[q]);
 
 }
 
@@ -95,11 +113,15 @@ void starttag(char* tag){
 				printf("</%s>",stackGet());
 				stackRemove();
 			}
+			if(getLevel(stackGet())==1){
+				puttab(q+1);
+			}
 			printf("<%s>",tag);
 			stackAdd(tag);
 		}
 	}
 	else{
+		if(getLevel(tag)<2) puttab(q+1);
 		printf("<%s>",tag);
 		stackAdd(tag);
 	}
@@ -109,21 +131,32 @@ void startlist(char* tag){
 	if(q>0){
 		if(strcmp(stackGet(),"li") == 0){
 			if(strcmp(stackGetList(),tag) == 0){
-				printf("</li>\n<li>");
+				printf("</li>\n");
+				puttab(q-1);
+				printf("<li>");
 			}
 			else{
-				printf("</li>\n</%s>\n<%s>\n<li>\n",stackGetList(),tag);
+				printf("</li>\n");
 				stackRemove();
+				puttab(q-1);
+				printf("</%s>\n",stackGet());
 				stackRemove();
+				puttab(q);
+				printf("<%s>\n",tag);
 				stackAdd(tag);
+				puttab(q);
+				printf("<li>");
 				stackAdd("li");
 			}
 		}
 
 	}
 	else{
-		printf("<%s>\n<li>",tag);
+		puttab(q);
+		printf("<%s>\n",tag);
 		stackAdd(tag);
+		puttab(q);
+		printf("<li>");
 		stackAdd("li");
 	}
 }
@@ -136,9 +169,13 @@ void checkheader(){
 		||((strcmp(stackGet(),"h3")) == 0)
 		||((strcmp(stackGet(),"h2")) == 0)
 		||((strcmp(stackGet(),"h1")) == 0)
-		||((strcmp(stackGet(),"ul")) == 0)
-		||((strcmp(stackGet(),"ol")) == 0)
 		||((strcmp(stackGet(),"li")) == 0)){
+			printf("</%s>\n",stackGet());
+			stackRemove();
+		}
+		else if(((strcmp(stackGet(),"ol")) == 0)
+		||((strcmp(stackGet(),"ul")) == 0)){
+			puttab(q-1);
 			printf("</%s>\n",stackGet());
 			stackRemove();
 		}
@@ -154,7 +191,7 @@ void closetags(){
 }
 
 void createLink(){
-	printf("<a href=\"%s\">%s</a>",tmplink[1],tmplink[0]);
+	printf("<a href=\"https://www.%s\">%s</a>",tmplink[1],tmplink[0]);
 }
 
 %}
@@ -169,19 +206,20 @@ void createLink(){
 ###						starttag("h3");
 ##						starttag("h2");
 #						starttag("h1");
+```						starttag("code");
 ~~						starttag("s");
 __						starttag("b");
 \*\*					starttag("b");
 _						starttag("i");
 \*						starttag("i");
-\n[1-9].				startlist("ol");
-\n0.					startlist("ul");
+\n[1-9]+.\ 				startlist("ol");
+\n0.\ 					startlist("ul");
 .						printf("%s",yytext);
 
-
 <LINK>{
-	[^\n]+\] 									{tmplink[0]=strdup(yytext);}
-	\((https:\/\/)?(www.)?[A-Za-z]+\.com\)		{tmplink[1]=strdup(yytext);createLink(); BEGIN INITIAL;}
+	[^\n]+\] 									{tmplink[0]=strdup(yytext);tmplink[0][yyleng-1] = 0;}
+	\((https:\/\/)?(www.)?
+	[A-Za-z]+\.com\)						{tmplink[1]=strdup(yytext);tmplink[1][yyleng-1] = 0;createLink(); BEGIN INITIAL;}
 }
 
 %%
@@ -197,7 +235,13 @@ int main(){
 	st = 15;
 	stack = (char**)malloc(sizeof(char*)*st);
 	tmplink = (char**)malloc(sizeof(char*)*2);
-	printf("<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<title>HTML from MARKDOWN</title>\n\t</head>\n\t<body>\n");
+	/*
+	costum css 
+	    padding: 16px;
+		background-color: #f6f8fa;
+		font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+	*/
+	printf("<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<style>\n\tcode\t{padding: 16px;\n\t\t\tbackground-color: #f6f8fa;\n\t\t\tfont-family: \"SFMono-Regular\",Consolas,\"Liberation Mono\",Menlo,Courier,monospace;}\n\t\t</style>\n\t\t<title>HTML from MARKDOWN</title>\n\t</head>\n\t<body>\n");
 	while(s=yylex()){
 		printf("%d",s);
 	}
