@@ -1,4 +1,4 @@
-%x LINK CHECKER
+%x LINK CHECKER IMG AUDIO VIDEO
 
 %{
 
@@ -71,6 +71,7 @@ void starttag(char* tag){
 			if(getLevel(stackGet())==1){
 				puttab(q+1);
 			}
+			if (strcmp("code",tag)==0) printf("<br>\n");
 			printf("<%s>",tag);
 			stackAdd(tag);
 		}
@@ -145,6 +146,14 @@ void closetags(){
 	}
 }
 
+void createIMG(){
+	printf("<img src=\"%s\" alt=\"%s\"/>",tmplink[1],tmplink[0]);
+}
+
+void createMEDIA(char* tipo){
+	printf("<%s controls>\n\t<source src=\"%s\"></source>\n</%s>",tipo,tmplink[0],tipo);
+}
+
 void createLink(){
 	printf("<a href=\"https://www.%s\">%s</a>",tmplink[1],tmplink[0]);
 }
@@ -154,6 +163,9 @@ void createLink(){
 %%
 
 \n 						checkheader();
+!\[a]				 	BEGIN AUDIO;
+!\[v]				 	BEGIN VIDEO;
+!					 	BEGIN IMG;
 \[					 	BEGIN LINK;
 #{6}					starttag("h6");
 #{5}					starttag("h5");
@@ -170,6 +182,20 @@ _						starttag("i");
 \n[1-9]+.\ 				startlist("ol");
 \n0.\ 					startlist("ul");
 .						printf("%s",yytext);
+
+
+<IMG>{
+	\[[^\n]+\] 							{tmplink[0]=strdup(yytext+1);tmplink[0][yyleng-2] = 0;}
+	\([^\n]+\)							{tmplink[1]=strdup(yytext+1);tmplink[1][yyleng-2] = 0;createIMG(); BEGIN INITIAL;}
+}
+
+<AUDIO>{
+	\([^\n]+\)						{tmplink[0]=strdup(yytext+1);tmplink[0][yyleng-2] = 0;createMEDIA("audio"); BEGIN INITIAL;}
+}
+
+<VIDEO>{
+	\([^\n]+\)						{tmplink[0]=strdup(yytext+1);tmplink[0][yyleng-2] = 0;createMEDIA("video"); BEGIN INITIAL;}
+}
 
 <LINK>{
 	[^\n]+\] 									{tmplink[0]=strdup(yytext);tmplink[0][yyleng-1] = 0;}
@@ -196,7 +222,7 @@ int main(){
 		background-color: #f6f8fa;
 		font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
 	*/
-	printf("<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<style>\n\tcode\t{padding: 16px;\n\t\t\tbackground-color: #f6f8fa;\n\t\t\tfont-family: \"SFMono-Regular\",Consolas,\"Liberation Mono\",Menlo,Courier,monospace;}\n\t\t</style>\n\t\t<title>HTML from MARKDOWN</title>\n\t</head>\n\t<body>\n");
+	printf("<!DOCTYPE html>\n<html>\n\t<head>\n\t\t<style>\n\tcode:\t{padding: 16px;\n\t\t\tbackground-color: #f6f8fa;\n\t\t\tfont-family: \"SFMono-Regular\",Consolas,\"Liberation Mono\",Menlo,Courier,monospace;}\n\t\t</style>\n\t\t<title>HTML from MARKDOWN</title>\n\t</head>\n\t<body>\n");
 	while(s=yylex()){
 		printf("%d",s);
 	}
