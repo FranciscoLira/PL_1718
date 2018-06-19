@@ -1,0 +1,18 @@
+"Porto"{
+    "Felgueiras"{
+        "Felgueiras"{
+            "Margaride",100,300.0;
+            "Moure",40,30.0
+            }
+        "Lixa"{
+            "Caramos",40,60.0
+            }
+        }
+    };
+"Braga"{
+    "Braga"{
+        "Braga"{
+            "Gualtar",120,400.0
+            }
+        }
+    }

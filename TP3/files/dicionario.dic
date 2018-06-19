@@ -1,0 +1,48 @@
+OrgGeo
+{
+    Distritos: 
+    {
+        Nome: "Porto"
+        Concelhos:
+        {
+            Nome: "Felgueiras"
+            Cidades:
+            {
+                Nome: "Felgueiras"
+                Freguesias:
+                {
+                    Nome:"Margaride"
+                    Tamanho: 100
+                    Habitantes: 300
+                },
+                {
+                    Nome:"Moure"
+                    Tamanho: 40
+                    Habitantes:30
+                };
+                Nome: "Lixa"
+                Freguesias:
+                {
+                    Nome:"Caramos"
+                    Tamanho: 40
+                    Habitantes: 60
+                };
+            };
+        };
+        Nome: "Braga"
+        Concelhos:
+        {
+            Nome: "Braga"
+            Cidades:
+            {
+                Nome:"Braga"
+                Freguesias:
+                {
+                    Nome: "Gualtar"
+                    Tamanho: 120
+                    Habitantes: 400
+                }
+            }
+        }
+    }
+}
