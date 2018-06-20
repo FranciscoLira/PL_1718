@@ -1,4 +1,4 @@
-#cd H1
+#H1
 ##H2
 ###H3
 ####H4
@@ -22,5 +22,13 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 
 
 [I'm an inline-style link](https://www.google.com)
-
 [I'm an another inline-style link with title](www.twitter.com)
+
+
+```
+void stackAdd(char tag){
+	int tmp = strlen(tag);
+	stack[q] = (char)malloc(sizeof(char));
+	strcpy(stack[q],tag);
+	q++;
+}

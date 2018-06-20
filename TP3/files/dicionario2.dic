@@ -1,0 +1,44 @@
+"Porto"{
+    "Felgueiras"{
+        "Felgueiras"{
+            "Margaride",100,300.0;
+            "Moure",40,30.0
+            };
+        "Lixa"{
+            "Caramos",60,40.0
+            }
+        }
+    };
+"Braga"{
+    "Braga"{
+        "Braga"{
+            "Adaúfe",400,120.0;
+            "Arcos",400,120.0;
+            "Arentim",400,120.0;
+            "Aveleda",400,120.0;
+            "Cabreiros",400,120.0;
+            "Celeiros",400,120.0;
+            "Braga(Cividade)",400,120.0;
+            "Crespos",400,120.0;
+            "Cunha",400,120.0;
+            "Dume",400,120.0;
+            "Escudeiros",400,120.0;
+            "Espinho",400,120.0;
+            "Esporões",400,120.0;
+            "Ferreiros",400,120.0;
+            "Figueiredo",400,120.0;
+            "Fraião",400,120.0;
+            "Frossos",400,120.0;
+            "Gondizalves",400,120.0;
+            "Gualtar",400,120.0;
+            "Frossos",200,120.0
+            }
+        };
+    "Vila Verde"{
+        "Vila Verde"{
+            "Pico",123,234.5;
+            "Geme",123,234.5;
+            "Barros",123,234.5;
+           }
+        }
+    }
