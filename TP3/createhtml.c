@@ -64,7 +64,6 @@ void createdists(char* location, OrgGeo og) {
         strcpy(filename, location);
         strcat(filename, dtmp->dis);
         strcat(filename, ".html");
-        printf("%s\n", filename);
         fp = htmlinit(filename);
         htmlDistrito(fp, dtmp->dis, dtmp->conc);
         htmlend(fp);
