@@ -36,6 +36,7 @@ typedef struct orggeo{
 }*OrgGeo;
 
 OrgGeo initOrgGeo();
+void printog(OrgGeo og);
 void addDis(OrgGeo og, char* nomeDist);
 void addConc(OrgGeo og, char* nomeDist, char* nomeConc);
 void addCid(OrgGeo og, char* nomeDist, char* nomeConc, char* nomeCid);

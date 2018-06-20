@@ -10,6 +10,34 @@ OrgGeo initOrgGeo() {
 	return og;
 }
 
+void printog(OrgGeo og) {
+	Distrito d = og->dist;
+	Concelho c;
+	Cidade ci;
+	Freguesia f;
+	printf("\nTREE-BEG----------------------------\n");
+	while (d) {
+		c = d->conc;
+		printf("\t%s\n", d->dis);
+		while (c) {
+			ci = c->cids;
+			printf("\t\t%s\n", c->con);
+			while (ci) {
+				f = ci->fregs;
+				printf("\t\t\t%s\n", ci->cid);
+				while (f) {
+					printf("\t\t\t\t%s\n", f->fre);
+					f = f->next;
+				}
+				ci = ci->next;
+			}
+			c = c->next;
+		}
+		d = d->next;
+	}
+	printf("TREE-END----------------------------\n\n");
+}
+
 void addDis(OrgGeo og, char* nomeDist) {
 	Distrito tmp;
 	if (og->qDis > 0) {
@@ -21,18 +49,19 @@ void addDis(OrgGeo og, char* nomeDist) {
 
 		tmp -> next = (Distrito) malloc(sizeof(struct distrito));
 		tmp = tmp -> next;
-
+		og->qDis++;
 	}
-
 	else {
 		og -> dist = (Distrito) malloc(sizeof(struct distrito));
 		tmp = og -> dist;
+		og->qDis++;
 	}
 
 	tmp -> dis = strdup(nomeDist);
 	tmp -> qCon = 0;
 	tmp -> conc = NULL;
 	tmp -> next = NULL;
+	//printog(og);
 }
 
 void addConc(OrgGeo og, char* nomeDist, char* nomeConc) {
@@ -46,6 +75,7 @@ void addConc(OrgGeo og, char* nomeDist, char* nomeConc) {
 	if (dtmp -> qCon == 0) {
 		dtmp -> conc = (Concelho) malloc(sizeof(struct concelho));
 		ctmp = dtmp -> conc;
+		dtmp -> qCon ++;
 	}
 	else {
 		ctmp = dtmp -> conc;
@@ -59,6 +89,7 @@ void addConc(OrgGeo og, char* nomeDist, char* nomeConc) {
 	ctmp -> qCid = 0;
 	ctmp -> cids = NULL;
 	ctmp -> next = NULL;
+	//printog(og);
 }
 
 void addCid(OrgGeo og, char* nomeDist, char* nomeConc, char* nomeCid) {
@@ -71,22 +102,27 @@ void addCid(OrgGeo og, char* nomeDist, char* nomeConc, char* nomeCid) {
 	}
 	ctmp = dtmp -> conc;
 	while (strcmp(ctmp->con, nomeConc) != 0) {
+		ctmp = ctmp->next;
 	}
+
 	if (ctmp -> qCid == 0) {
 		ctmp -> cids = (Cidade) malloc(sizeof(struct cidade));
 		cidtmp = ctmp-> cids;
+		ctmp -> qCid ++;
 	}
 	else {
+		ctmp -> qCid++;
 		cidtmp = ctmp->cids;
 		while (cidtmp->next) cidtmp = cidtmp -> next;
 		cidtmp -> next = (Cidade) malloc(sizeof(struct cidade));
 		cidtmp = cidtmp -> next;
 	}
 
-	cidtmp -> cid = strdup(nomeConc);
+	cidtmp -> cid = strdup(nomeCid);
 	cidtmp -> qFre = 0;
 	cidtmp -> fregs = NULL;
 	cidtmp -> next = NULL;
+	//printog(og);
 }
 
 void addFreg(OrgGeo og, char* nomeDist, char* nomeConc, char* nomeCid, char* nomeFreg, float tamFreg, int habFreg) {
@@ -112,6 +148,7 @@ void addFreg(OrgGeo og, char* nomeDist, char* nomeConc, char* nomeCid, char* nom
 	if (cidtmp -> qFre == 0) {
 		cidtmp -> fregs = (Freguesia) malloc(sizeof(struct freguesia));
 		fregtmp = cidtmp -> fregs;
+		cidtmp -> qFre ++;
 	}
 	else {
 		fregtmp = cidtmp -> fregs;
@@ -120,8 +157,10 @@ void addFreg(OrgGeo og, char* nomeDist, char* nomeConc, char* nomeCid, char* nom
 		fregtmp = fregtmp -> next;
 	}
 
-	fregtmp -> fre = strdup(nomeConc);
+	fregtmp -> fre = strdup(nomeFreg);
 	fregtmp -> tam = habFreg;
 	fregtmp -> nhab = tamFreg;
 	fregtmp -> next = NULL;
+	//printog(og);
 }
+
