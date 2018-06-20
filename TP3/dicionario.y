@@ -57,7 +57,7 @@ Freguesias: IdFreg
 IdD: NOME {if(!og) og = initOrgGeo(); distrito = $1; deleteChar(distrito);addDis(og, distrito);};
 IdC: NOME {concelho = $1; deleteChar(concelho); addConc(og, distrito, concelho);};
 IdCid: NOME {cidade = $1; deleteChar(cidade); addCid(og, distrito, concelho, cidade);}
-IdFreg: NOME ',' HAB ',' TAM {freguesia = $1; deleteChar(freguesia); printf("%s - %s - %s - %s: %d, %f\n", distrito, concelho, cidade, freguesia, $3, $5); addFreg(og, distrito, concelho, cidade, freguesia, $3, $5);}
+IdFreg: NOME ',' HAB ',' TAM {freguesia = $1; deleteChar(freguesia); addFreg(og, distrito, concelho, cidade, freguesia, $3, $5);}
 
 
 %%

@@ -7,6 +7,12 @@
         "Lixa"{
             "Caramos",60,40.0
             }
+        };
+    "Santo Tirso"{
+        "Santo Tirso"{
+            "Burgaes",209,506.0;
+            "Santo Tirso",107,800.0
+            }
         }
     };
 "Braga"{
@@ -38,7 +44,7 @@
         "Vila Verde"{
             "Pico",123,234.5;
             "Geme",123,234.5;
-            "Barros",123,234.5;
+            "Barros",123,234.5
            }
         }
     }
