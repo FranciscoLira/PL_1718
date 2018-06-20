@@ -28,10 +28,10 @@ void htmlDistrito(FILE* out, char* distrito, Concelho c) {
             }
             cid = cid->next;
         }
-        fprintf(out, "<a href=\"../index.html\" rel=\"noopener\">Retroceder</a>");
-        fprintf(out, "<p>&nbsp;</p>");
-        c=c->next;
+        c = c->next;
     }
+    fprintf(out, "<a href=\"../index.html\" rel=\"noopener\">Retroceder</a>");
+    fprintf(out, "<p>&nbsp;</p>");
 }
 
 FILE* htmlinit(char* file) {
@@ -66,7 +66,7 @@ void createdists(char* location, OrgGeo og) {
         strcat(filename, ".html");
         printf("%s\n", filename);
         fp = htmlinit(filename);
-        htmlDistrito(fp,dtmp->dis, dtmp->conc);
+        htmlDistrito(fp, dtmp->dis, dtmp->conc);
         htmlend(fp);
         dtmp = dtmp->next;
     }
